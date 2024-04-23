@@ -1,0 +1,41 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\Vitthal\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add express cors helment dotenv jsonwebtoken mongoose
+
+PATH: 
+  C:\Users\Vitthal\bin;H:\Git\mingw64\bin;H:\Git\usr\local\bin;H:\Git\usr\bin;H:\Git\usr\bin;H:\Git\mingw64\bin;H:\Git\usr\bin;C:\Users\Vitthal\bin;C:\Users\Vitthal\AppData\Local\Programs\Python\Python38-32\Scripts;C:\Users\Vitthal\AppData\Local\Programs\Python\Python38-32;C:\Users\Vitthal\AppData\Local\Programs\Python\Python39\Scripts;C:\Users\Vitthal\AppData\Local\Programs\Python\Python39;C:\oraclexe\app\oracle\product\10.2.0\server\bin;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\MySQL\MySQL Server 5.5\bin;C:\Program Files\Microsoft\Web Platform Installer;C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0;C:\Program Files (x86)\Windows Kits\8.0\Windows Performance Toolkit;C:\Program Files\Microsoft SQL Server\110\Tools\Binn;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\xampp\php;C:\Program Files (x86)\Java\jdk1.7.0_65\bin;C:\MinGW\bin;H:\Git\cmd;C:\Program Files\Microsoft Visual Studio 11.0;C:\minikube;C:\Program Files\Go\bin;C:\Users\Vitthal\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Docker\Docker\resources\bin;C:\Users\Vitthal\.cargo\bin;C:\Users\Vitthal\AppData\Local\Programs\Python\Python38\Scripts;C:\Users\Vitthal\AppData\Local\Programs\Python\Python38;C:\Users\Vitthal\AppData\Local\Microsoft\WindowsApps;C:\Users\Vitthal\AppData\Local\Programs\Microsoft VS Code\bin;C:\xampp\php;C:\Program Files\JetBrains\CLion 2021.1.2\bin;C:\Program Files (x86)\Nmap;C:\Users\Vitthal\AppData\Roaming\npm;C:\Program Files\MongoDB\Server\7.0\bin;C:\Users\Vitthal\go\bin;C:\Anaconda\Scripts;C:\Users\Vitthal\AppData\Roaming\nvm;C:\Program Files\nodejs;H:\Git\usr\bin\vendor_perl;H:\Git\usr\bin\core_perl
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  21.7.2
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/helment: Not found
+      at params.callback [as _callback] (C:\Users\Vitthal\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66145:18)
+      at self.callback (C:\Users\Vitthal\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140890:22)
+      at Request.emit (node:events:519:28)
+      at Request.<anonymous> (C:\Users\Vitthal\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141862:10)
+      at Request.emit (node:events:519:28)
+      at IncomingMessage.<anonymous> (C:\Users\Vitthal\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141784:12)
+      at Object.onceWrapper (node:events:633:28)
+      at IncomingMessage.emit (node:events:531:35)
+      at endReadableNT (node:internal/streams/readable:1696:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+
+npm manifest: 
+  {
+    "name": "server",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
