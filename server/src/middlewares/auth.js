@@ -11,6 +11,7 @@ export const verifyUser = async (req, res, next) => {
         const accessToken = tokens.split(" ")[1];
 
         const payload = await jwt.verify(accessToken, config.JWT.SECRET);
+        console.log({payload})
         const user = await userModel.findById(payload.sub)
         if(!user)
             throw new Error("user not found");
@@ -28,6 +29,7 @@ export const verifyUser = async (req, res, next) => {
             statusCode = 401; 
         } else if (error.message.startsWith("Unauthorized")) {
             statusCode = 401; 
+            errorMessage = error.message;
         }
 
         console.error("Error in verifyUser middleware:", error);

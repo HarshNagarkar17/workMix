@@ -11,14 +11,30 @@ export const generateToken = (userId,expiresIn) =>{
 
     return jwt.sign(payload,config.JWT.SECRET);
 }
+
 export const createTokens = async(user) => {
-    const accessTokenExpireTime = moment().add(15,"minutes");
+    const accessTokenExpireTime = moment().add(1,"minutes");
     const accessToken = await generateToken(user,accessTokenExpireTime)
 
-    const refreshTokenExpireTime = moment().add(2,"days");
+    const refreshTokenExpireTime = moment().add(5,"minutes");
     const refreshToken = await generateToken(user,refreshTokenExpireTime);
+    
     return {
         accessToken,
         refreshToken
     }
+}
+
+export const createAccessToken = async(user) => {
+    const accessTokenExpireTime = moment().add(1,"minutes");
+    const accessToken = await generateToken(user,accessTokenExpireTime);
+
+    return accessToken;
+}
+
+export const createRefreshToken = async(user) => {
+    const refreshTokenExpireTime = moment().add(2,"days");
+    const refreshToken = await generateToken(user,refreshTokenExpireTime);
+    
+    return refreshToken;
 }

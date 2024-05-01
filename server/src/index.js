@@ -2,6 +2,7 @@ import express from  "express"
 import cors from "cors";
 import helmet from "helmet";
 import router from "./routes/user.routes.js";
+import tokenRouter from "./routes/token.service.js";
 
 import "./database/db.js";
 
@@ -15,5 +16,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 app.use("/api",router);
+app.use("/token",tokenRouter)
 
 export default app;
