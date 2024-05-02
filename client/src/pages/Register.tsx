@@ -1,13 +1,14 @@
 import RHFInput from '@/components/RHFInput'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { loginSchema } from '@/schema/auth';
-import { Link } from 'react-router-dom';
+import { authSchema } from '@/schema/auth';
+import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '@/utils/axios';
 import RHFImageSelector from '@/components/RHFImageSelector';
 import { setAccesToken } from '@/service/token.service';
 
 const Register = () => {
+  const navigate = useNavigate();
 
   interface DefaultValues {
     email: string;
@@ -22,7 +23,7 @@ const Register = () => {
   const methods = useForm({
     defaultValues,
     mode: "onBlur",
-    resolver: zodResolver(loginSchema())
+    resolver: zodResolver(authSchema())
   })
 
   const { handleSubmit, formState: { isSubmitting }, watch } = methods;
@@ -48,6 +49,7 @@ const Register = () => {
       if (res.data.tokens.accessToken) {
         setAccesToken(JSON.stringify(res.data.tokens.accessToken))
       }
+      navigate("/");
     } catch (error: any) {
       console.log({ error:error.response })
     }

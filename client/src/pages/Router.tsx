@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect } from 'react'
-import { Outlet, useLocation, useNavigate, useRoutes } from 'react-router-dom'
+import { Suspense } from 'react'
+import { Outlet, useRoutes } from 'react-router-dom'
 import Register from './Register'
 import Container from '@/components/Container'
 import Login from './Login'
