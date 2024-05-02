@@ -3,11 +3,9 @@ import userModel from "../models/user.model.js";
 import config from "../config/config.js";
 import { createAccessToken } from "../services/token.service.js";
 
-
 export const refreshAccessToken = async (req, res) => {
     try {
         const token = req.body.refreshToken;
-
         if (!token)
             throw new Error("TokenMissing: token not found");
 
@@ -24,7 +22,7 @@ export const refreshAccessToken = async (req, res) => {
 
         let errorMessage = "An unexpected error occurred";
         let status = 403;
-        if ( error instanceof jwt.TokenExpiredError) {
+        if (error instanceof jwt.TokenExpiredError) {
             errorMessage = "refresh token expired"
             status = 401;
         } else if (error instanceof jwt.JsonWebTokenError) {

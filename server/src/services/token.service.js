@@ -16,7 +16,7 @@ export const createTokens = async(user) => {
     const accessTokenExpireTime = moment().add(1,"minutes");
     const accessToken = await generateToken(user,accessTokenExpireTime)
 
-    const refreshTokenExpireTime = moment().add(5,"minutes");
+    const refreshTokenExpireTime = moment().add(2,"days");
     const refreshToken = await generateToken(user,refreshTokenExpireTime);
     
     return {
