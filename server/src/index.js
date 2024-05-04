@@ -2,7 +2,7 @@ import express from  "express"
 import cors from "cors";
 import helmet from "helmet";
 import router from "./routes/user.routes.js";
-import tokenRouter from "./routes/token.service.js";
+import tokenRouter from "./routes/token.routes.js";
 
 import "./database/db.js";
 

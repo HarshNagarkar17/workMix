@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { authSchema } from '@/schema/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '@/utils/axios';
-import { setAccesToken } from '@/service/token.service';
+import { setTokens } from '@/service/token.service';
 
 const Login = () => {
 
@@ -29,8 +29,8 @@ const Login = () => {
     const handleOnSubmit = handleSubmit(async (values) => {
         try {
             const res = await axiosInstance.post("/api/login",values);
-            if(res.data.tokens.accessToken)
-                setAccesToken(JSON.stringify(res.data.tokens.accessToken));
+            if(res.data.tokens)
+                setTokens(JSON.stringify(res.data.tokens));
             navigate("/")
         } catch (error:any) {
             console.log(error.response.data.error);

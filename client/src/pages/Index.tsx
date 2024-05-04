@@ -6,19 +6,19 @@ const Index = () => {
   const [user, setUser] = useState({ email: "", password: "" });
   const [profileImage, setProfileImage] = useState();
   const navigate = useNavigate();
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const res = await axiosInstance.post("/api/getUser");
-        if (res.data.user)
-          setUser(res.data.user);
-        if (res.data.img)
-          setProfileImage(res.data.img)
-      } catch (error: any) {
-        navigate("/login")
-        console.log({ error: error.response })
-      }
+  async function getUser() {
+    try {
+      const res = await axiosInstance.post("/api/getUser");
+      if (res.data.user)
+        setUser(res.data.user);
+      if (res.data.img)
+        setProfileImage(res.data.img)
+    } catch (error: any) {
+      navigate("/login")
+      console.log({ error: error.response })
     }
+  }
+  useEffect(() => {
     getUser()
   }, [])
   return (

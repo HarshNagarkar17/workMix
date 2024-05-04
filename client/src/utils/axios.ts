@@ -1,18 +1,53 @@
-import { getAccessToken } from "@/service/token.service";
+import { getTokens } from "@/service/token.service";
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL:"http://localhost:3000",
-})
+  baseURL: "http://localhost:3000",
+});
 
 axiosInstance.interceptors.request.use((config) => {
-    const token = getAccessToken();
-    if(token)
-        config.headers.Authorization = `Bearer ${token}`;
-    return config;
-},(error) => {
-    return Promise.reject(error)
-})
+  const tokens = getTokens();
+  if (tokens)
+    config.headers.Authorization = `Bearer ${tokens.accessToken}`;
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
 
+axiosInstance.interceptors.response.use((response) => response,
+  async (error) => {
+    const originalRequest = error.config;
 
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const tokens = getTokens();
+        const refreshToken = tokens.refreshToken;
+
+        if (!refreshToken) {
+          console.error("refresh token not found!");
+          return Promise.reject(error);
+        }
+
+        const response = await axiosInstance.post("/token/refresh_access_token", { refreshToken });
+        const accessToken = response.data.accessToken;
+        console.log("got the access token", {accessToken});
+        localStorage.setItem(
+          "tokens",
+          JSON.stringify({
+            accessToken,
+            refreshToken,
+          })
+        );
+        return axiosInstance(originalRequest);
+      } catch (refreshError) {
+        console.error("failed to fetch new token: ", refreshError);
+          return Promise.reject(refreshError)
+      }
+    }else{
+      return Promise.reject(error);
+    }
+  }
+)
 export default axiosInstance;

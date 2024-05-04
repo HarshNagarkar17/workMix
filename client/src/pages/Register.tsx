@@ -5,7 +5,7 @@ import { authSchema } from '@/schema/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '@/utils/axios';
 import RHFImageSelector from '@/components/RHFImageSelector';
-import { setAccesToken } from '@/service/token.service';
+import { setTokens } from '@/service/token.service';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -46,8 +46,8 @@ const Register = () => {
           "Content-Type": "multipart/form-data"
         }
       });
-      if (res.data.tokens.accessToken) {
-        setAccesToken(JSON.stringify(res.data.tokens.accessToken))
+      if (res.data.tokens) {
+        setTokens(JSON.stringify(res.data.tokens))
       }
       navigate("/");
     } catch (error: any) {
