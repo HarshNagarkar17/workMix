@@ -2,13 +2,16 @@ import RHFInput from '@/components/RHFInput'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { authSchema } from '@/schema/auth';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import axiosInstance from '@/utils/axios';
 import { setTokens } from '@/service/token.service';
+import {useSnackbar} from "notistack"
+import { useRouter } from '@/hooks/use-router';
 
 const Login = () => {
 
-    const navigate = useNavigate();
+    const router = useRouter();
+    const {enqueueSnackbar} = useSnackbar();
 
     interface DefaultValues {
         email: string;
@@ -31,9 +34,24 @@ const Login = () => {
             const res = await axiosInstance.post("/api/login",values);
             if(res.data.tokens)
                 setTokens(JSON.stringify(res.data.tokens));
-            navigate("/")
+            enqueueSnackbar("Logged In", {
+                variant: 'success',
+                anchorOrigin: {
+                  vertical: 'top',
+                  horizontal: 'right',
+                },
+                autoHideDuration: 2000,
+              });
+           router.push("/");
         } catch (error:any) {
-            console.log(error.response.data.error);
+            enqueueSnackbar(error.response.data.error, {
+                variant: 'error',
+                anchorOrigin: {
+                  vertical: 'top',
+                  horizontal: 'right',
+                },
+                autoHideDuration: 2000,
+              });
         }
     })
     return (
