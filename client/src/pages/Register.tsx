@@ -1,25 +1,31 @@
 import RHFInput from '@/components/RHFInput'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { authSchema } from '@/schema/auth';
+import { registerSchema } from '@/schema/auth';
 import { Link } from 'react-router-dom';
-import axiosInstance from '@/utils/axios';
 import RHFImageSelector from '@/components/RHFImageSelector';
-import { setTokens } from '@/service/token.service';
-import {useSnackbar} from "notistack";
+import { useSnackbar } from "notistack";
 import { useRouter } from '@/hooks/use-router';
+import { registerUser } from '@/service/api/auth.service';
+import { useProfile } from '@/hooks/use-profile';
+import { useAuth } from '@/hooks/use-auth';
 
 const Register = () => {
 
   const router = useRouter();
-  const {enqueueSnackbar} = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
+  const { setTokens } = useAuth();
+  const { setUserProfile } = useProfile();
 
   interface DefaultValues {
+    username: string;
     email: string;
     password: string;
     profileImage: any
   }
+
   const defaultValues: DefaultValues = {
+    username: "",
     email: "",
     password: "",
     profileImage: null
@@ -27,7 +33,7 @@ const Register = () => {
   const methods = useForm({
     defaultValues,
     mode: "onBlur",
-    resolver: zodResolver(authSchema())
+    resolver: zodResolver(registerSchema())
   })
 
   const { handleSubmit, formState: { isSubmitting }, watch } = methods;
@@ -41,18 +47,9 @@ const Register = () => {
 
   const handleOnSubmit = handleSubmit(async (userData) => {
     try {
-      const data = new FormData();
-      data.append("email", userData.email)
-      data.append("password", userData.password)
-      data.append("profileImage", values.profileImage)
-      const res = await axiosInstance.post("/api/register", data, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      });
-      if (res.data.tokens) {
-        setTokens(JSON.stringify(res.data.tokens))
-      }
+      const res = await registerUser(userData, values.profileImage);
+      setTokens(res.data.tokens)
+      setUserProfile(res.data.user);
       enqueueSnackbar("Account created", {
         variant: 'success',
         anchorOrigin: {
@@ -61,7 +58,7 @@ const Register = () => {
         },
         autoHideDuration: 2000,
       });
-      router.push("/");
+      // router.push("/");
     } catch (error: any) {
       enqueueSnackbar(error.response.data.error, {
         variant: 'error',
@@ -71,9 +68,9 @@ const Register = () => {
         },
         autoHideDuration: 2000,
       });
-      console.log({ error:error.response })
     }
   })
+
   return (
     <div>
       <div className='max-w-lg mx-auto min-h-screen flex flex-col items-center justify-center'>
@@ -87,6 +84,7 @@ const Register = () => {
                   <img src={URL.createObjectURL(values.profileImage)} className='w-full h-full rounded-full' alt="profile image" />
                 )}
               </div>
+              <RHFInput name='username' PlaceHolder='Enter username' />
               <RHFInput name='email' PlaceHolder='Enter email' />
               <RHFInput name='password' PlaceHolder='Enter password' />
               <Link to="/login" className='mb-2'>login</Link>

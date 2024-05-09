@@ -28,7 +28,6 @@ export const login = async(req,res) => {
     }
 }
 
-
 export const getUser = async (req, res) => {
     try {
         const user = await userModel.findById(req.user._id);

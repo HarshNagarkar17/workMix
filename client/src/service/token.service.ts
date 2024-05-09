@@ -1,8 +1,12 @@
-export const setTokens = (token:string) => {
-    localStorage.setItem("tokens",token)
+export const setTokensToLocalStorage = (tokens:any) => {
+    localStorage.setItem("tokens", JSON.stringify(tokens));
 }
 
-export const getTokens = () => {
+export const removeTokensFromLocalStorage = () => {
+    localStorage.removeItem("tokens");
+}
+
+export const getTokensFromLocalStorage = ()=>{
     const tokens = JSON.parse(localStorage.getItem("tokens") as string);
-    return tokens;
+    return tokens ? tokens : null;
 }

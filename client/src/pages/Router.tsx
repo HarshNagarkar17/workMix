@@ -4,6 +4,8 @@ import Register from './Register'
 import Container from '@/components/Container'
 import Login from './Login'
 import Index from './Index'
+import Explore from './Explore'
+import AuthContainer from '@/components/AuthContainer'
 
 const Router = () => {
     return useRoutes([
@@ -15,9 +17,16 @@ const Router = () => {
                     </Suspense>
                 </Container>
             ), children: [
-                { path:`/`, element: <Index />,index:true },
+                {
+                    path: `/`, element: (
+                        <AuthContainer>
+                            <Index />
+                        </AuthContainer>
+                    ), index: true
+                },
                 { path: "/register", element: <Register /> },
                 { path: "/login", element: <Login /> },
+                { path: "/explore", element: <Explore /> },
 
             ]
         }

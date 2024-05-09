@@ -1,4 +1,5 @@
-import { getTokens } from "@/service/token.service";
+// import { getTokens } from "@/service/token.service";
+import { getTokensFromLocalStorage } from "@/service/token.service";
 import axios from "axios";
 
 const axiosInstance = axios.create({
@@ -6,7 +7,7 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  const tokens = getTokens();
+  const tokens = getTokensFromLocalStorage();
   if (tokens)
     config.headers.Authorization = `Bearer ${tokens.accessToken}`;
   return config;
@@ -22,7 +23,7 @@ axiosInstance.interceptors.response.use((response) => response,
       originalRequest._retry = true;
 
       try {
-        const tokens = getTokens();
+        const tokens = getTokensFromLocalStorage()
         const refreshToken = tokens.refreshToken;
 
         if (!refreshToken) {

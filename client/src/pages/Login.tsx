@@ -1,17 +1,19 @@
 import RHFInput from '@/components/RHFInput'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { authSchema } from '@/schema/auth';
-import { Link} from 'react-router-dom';
-import axiosInstance from '@/utils/axios';
-import { setTokens } from '@/service/token.service';
-import {useSnackbar} from "notistack"
+import { loginSchema } from '@/schema/auth';
+import { Link } from 'react-router-dom';
+import { useSnackbar } from "notistack"
 import { useRouter } from '@/hooks/use-router';
+import { loginUser } from '@/service/api/auth.service';
+import { useProfile } from '@/hooks/use-profile';
+import { useAuth } from '@/hooks/use-auth';
 
 const Login = () => {
-
     const router = useRouter();
-    const {enqueueSnackbar} = useSnackbar();
+    const { enqueueSnackbar } = useSnackbar();
+    const { setTokens } = useAuth();
+    const { setUserProfile } = useProfile();
 
     interface DefaultValues {
         email: string;
@@ -24,34 +26,33 @@ const Login = () => {
     const methods = useForm({
         defaultValues,
         mode: "onBlur",
-        resolver: zodResolver(authSchema())
+        resolver: zodResolver(loginSchema())
     })
-
-    const { handleSubmit} = methods;
+    const { handleSubmit } = methods;
 
     const handleOnSubmit = handleSubmit(async (values) => {
         try {
-            const res = await axiosInstance.post("/api/login",values);
-            if(res.data.tokens)
-                setTokens(JSON.stringify(res.data.tokens));
+            const res = await loginUser(values);
+            setTokens(res.data.tokens);
+            setUserProfile(res.data.user);
             enqueueSnackbar("Logged In", {
                 variant: 'success',
                 anchorOrigin: {
-                  vertical: 'top',
-                  horizontal: 'right',
+                    vertical: 'top',
+                    horizontal: 'right',
                 },
                 autoHideDuration: 2000,
-              });
-           router.push("/");
-        } catch (error:any) {
+            });
+            router.push("/");
+        } catch (error: any) {
             enqueueSnackbar(error.response.data.error, {
                 variant: 'error',
                 anchorOrigin: {
-                  vertical: 'top',
-                  horizontal: 'right',
+                    vertical: 'top',
+                    horizontal: 'right',
                 },
                 autoHideDuration: 2000,
-              });
+            });
         }
     })
     return (
